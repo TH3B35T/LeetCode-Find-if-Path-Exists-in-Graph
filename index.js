@@ -19,7 +19,7 @@ var validPath = function(n, edges, source, dest) {
         graph[a].push(b);
         graph[b].push(a);
     }
-// using dfs with stack
+
     // let stack = [source];
     // let visited = new Set();
 
@@ -41,26 +41,48 @@ var validPath = function(n, edges, source, dest) {
        
     // }
     // return false;
-// using dfs with recursive
     
-    const marked = new Array(n).fill(false);
-    const dfs = (node) =>{
+    // const marked = new Array(n).fill(false);
+    // const dfs = (node) =>{
+    //     if(node === dest){
+    //         return true;
+    //     }
+
+    //     if(!marked[node]){
+    //         marked[node] = true;
+    //         for(let neighbor of graph[node]){
+    //             if(!marked[neighbor]){
+    //                 if(dfs(neighbor)){
+    //                     return true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return false;
+
+    // }
+    // return dfs(source);
+
+
+    // Using BFS
+
+    const queue = [source];
+    const visited = new Set([source]);
+
+    while(!!queue.length){
+        const node = queue.shift();
+
         if(node === dest){
             return true;
         }
 
-        if(!marked[node]){
-            marked[node] = true;
-            for(let neighbor of graph[node]){
-                if(!marked[neighbor]){
-                    if(dfs(neighbor)){
-                        return true;
-                    }
-                }
+        for(let neighbor of graph[node]){
+            if(!visited.has(neighbor)){
+                visited.add(neighbor);
+                queue.push(neighbor);
             }
         }
-        return false;
 
     }
-    return dfs(source);
+    return false;
 };
